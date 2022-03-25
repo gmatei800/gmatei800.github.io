@@ -1,0 +1,129 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<style>
+body {
+  margin: 0;
+  font-family: Arial, Helvetica, sans-serif;
+}
+
+.topnav {
+  overflow: hidden;
+  background-color: #333;
+}
+
+.topnav a {
+  float: left;
+  color: #f2f2f2;
+  text-align: center;
+  padding: 14px 16px;
+  text-decoration: none;
+  font-size: 17px;
+}
+
+.topnav a:hover {
+  background-color: #ddd;
+  color: black;
+}
+
+.topnav a.active {
+  background-color: #04AA6D;
+  color: white;
+}
+.button {
+  background-color: #4CAF50; /* Green */
+  border: none;
+  color: white;
+  padding: 15px 32px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 16px;
+  margin: 4px 2px;
+  cursor: pointer;
+}
+
+.button1 {
+  background-color: #4CAF50; 
+  color: black; 
+  border: 2px solid #4CAF50;
+}
+
+.button2 {
+  background-color: #008CBA; 
+  color: black; 
+  border: 2px solid #008CBA;
+}
+.button2 disabled {
+  background-color: white; 
+  color: black; 
+  border: 2px solid #008CBA;
+}
+
+.button3 {
+  background-color: white; 
+  color: black; 
+  border: 2px solid #f44336;
+}
+
+.button4 {
+  background-color: white;
+  color: black;
+  border: 2px solid #e7e7e7;
+}
+
+.button5 {
+  background-color: white;
+  color: black;
+  border: 2px solid #555555;
+}
+time {
+font-size:25px;
+}
+#stopbuttonss
+</style>
+</head>
+<body>
+<div class="topnav">
+  <a  href="index.html">Bunvenit!</a>
+  <a href="concentrare.html" class="active"> Concentrare </a>
+</div><button class = "button button1" id="startBtn" value="0">Start</button>
+<button id="stopBtn" class = "button button2" disabled value="0">Stop</button>
+<div><time id="timeEl" dateTime="PT0H0M0S">0</time> minute ramase</div>
+<script>{  // to isolate the scope of your code from any existing code.
+    const TICK_RESOLUTION = 60000; // in ms
+    const TIMER_LENGTH = 120;      // multiples of TICK_RESOLUTION
+    startBtn.value = TIMER_LENGTH * TICK_RESOLUTION;
+    
+    startBtn.addEventListener("click", startStopTimer);
+    stopBtn.addEventListener("click", startStopTimer);
+    document.addEventListener("visibilityChange", tick);
+    
+    let endTime, timeHdl;
+    function startStopTimer(event) {
+        endTime = performance.now() + Number(event.target.value);        
+        tick();
+    }
+    function tick() {
+        clearTimeout(timeHdl);
+        var till = endTime - performance.now();
+        till = till <= 0 ? 0 : till;                
+        if (till) {
+            if (document.visibilityState === "visible") {
+                stopBtn.disabled = false;
+                timeEl.textContent = (till / TICK_RESOLUTION + 1 | 0);
+            }
+            timeEl.dateTime = "PT0H0M" + (till / TICK_RESOLUTION + 1 | 0) + "S";
+            timeHdl = setTimeout(tick, (till % TICK_RESOLUTION) + 10);
+        } else {
+            timeEl.dateTime = "PT0H0M0S";
+            timeEl.textContent = 0;
+            stopBtn.disabled = true;
+        }
+    }
+}
+</script>
+
+</body>
+</html>
